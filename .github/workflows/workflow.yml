@@ -1,21 +1,23 @@
 name: Download new assets
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: null
   schedule:
-    - cron:  '0 * * * *'
+    - cron: 0 * * * *
 
 concurrency:
-  group: ${{ github.ref }}
+  group: '${{ github.ref }}'
 
 jobs:
   update:
     name: Update
     runs-on: ubuntu-latest
-
     permissions:
       contents: write
-
+    strategy:
+      fail-fast: false
+      matrix:
+        filter: [art, audio]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -34,18 +36,18 @@ jobs:
       - name: Install .NET 6.0
         uses: actions/setup-dotnet@v4
         with:
-            dotnet-version: 6.0.x
+          dotnet-version: 6.0.x
       - name: Install python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.13' 
-      - name: Set env
+          python-version: '3.13'
+      - name: Prepare environment
         run: |
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git config http.postBuffer 2147483648
-            if [[ $GITHUB_EVENT_NAME == 'workflow_dispatch' ]]; then echo "FORCE=--force" >> $GITHUB_ENV; fi
-      - name: Update files
-        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config http.postBuffer 2147483648
+          if [[ $GITHUB_EVENT_NAME == 'workflow_dispatch' ]]; then echo "FORCE=--force" >> $GITHUB_ENV; fi
           python -m pip install -U requests
-          python script.py ${{ env.FORCE }}
+          sudo apt-get install -y ffmpeg
+      - name: Update assets
+        run: python script.py ${{ matrix.filter }} ${{ env.FORCE }}
