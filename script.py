@@ -3,18 +3,18 @@
 Requires: python 3.9+, python's requests, .NET 6.0, ffmpeg (audio only)
 """
 
+import argparse
+import json
 import os
 import re
-import subprocess
 import shutil
+import subprocess
 import sys
 import tempfile
 import typing
 import zipfile
-import requests
-import argparse
 
-import json
+import requests
 
 # parse arguments
 parser = argparse.ArgumentParser()
@@ -135,8 +135,8 @@ while to_update_index < len(to_update):
                 if os.path.exists(fp):
                     upload_size += os.path.getsize(fp)
 
-        # the actual github limit is 2GB but we assume 1GB and try to be safe
-        if upload_size > 900 * 1024 * 1024:
+        # the actual github limit is 2GB but we try to keep about 100MB for metadata
+        if upload_size > 1900 * 1024 * 1024:
             break
 
     # move (or overwrite if exists) unstrctured files with the actual assets directory
@@ -169,18 +169,16 @@ while to_update_index < len(to_update):
     print("Cleaning up")
     shutil.rmtree("bundles")
     shutil.rmtree("unstructured_assets")
-    subprocess.run(["du", "-h", "--threshold=1G", "."])
+    if os.name != "nt":
+        subprocess.run(["du", "-h", "--threshold=1G", "."])
 
     # push segment to git
     print("Pushing to git")
     sys.stdout.flush()
     subprocess.run(["git", "add", "assets"], check=True)
     if not subprocess.check_output(["git", "diff", "--cached", "--name-only", "assets"]).strip():
-        break
-    comp = subprocess.run(["git", "commit", "-m", f"update {res_version} segment {to_update_index}/{len(to_update)}"], capture_output=True)
-    if comp.returncode != 0:
-        print(comp.stdout, comp.stderr) # TODO: sometimes this fails and I do not understand why
-        comp.check_returncode()
+        continue
+    subprocess.run(["git", "commit", "-m", f"update {res_version} segment {to_update_index}/{len(to_update)}"], check=True, stdout=subprocess.DEVNULL)
     subprocess.run(["git", "log", "--oneline"], check=True)
     subprocess.run(["git", "push", "origin", branch], check=True)
 
