@@ -18,18 +18,20 @@ import requests
 
 # parse arguments
 parser = argparse.ArgumentParser()
-parser.add_argument("filter", nargs="?", choices=["art", "audio"], default="art")
+parser.add_argument("--branch", required=True)
+parser.add_argument("--server", choices=["en", "cn"], required=True)
+parser.add_argument("--filter", choices=["art", "audio"], required=True)
 parser.add_argument("--force", action="store_true")
 args = parser.parse_args()
+branch: str = args.branch
 name_filter: typing.Callable[[str], bool] = (lambda i: "audio" in i) if args.filter == "audio" else (lambda i: "audio" not in i)
-branch = "cn" if args.filter == "art" else "voice"
 
 # checkout the actual asset branch
 subprocess.run(["git", "fetch", "--depth=1", "origin", f"{branch}:{branch}"], check=True)
 subprocess.run(["git", "checkout", branch], check=True)
 
 # prepare network config
-network_config_url = "https://ak-conf.hypergryph.com/config/prod/official/network_config"
+network_config_url = "https://ak-conf.hypergryph.com/config/prod/official/network_config" if args.server == "cn" else "https://ak-conf.arknights.global/config/prod/official/network_config"
 network_config = json.loads(requests.get(network_config_url).json()["content"])
 network_urls = network_config["configs"][network_config["funcVer"]]["network"]
 version_url = network_urls["hv"].replace("{0}", "Android")

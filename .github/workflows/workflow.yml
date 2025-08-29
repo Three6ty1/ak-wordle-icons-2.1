@@ -17,7 +17,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        filter: [art, audio]
+        args:
+          - --branch cn --server cn --filter art
+          - --branch voice --server cn --filter audio
+          - --branch en --server en --filter art
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -50,4 +53,4 @@ jobs:
           python -m pip install -U requests
           sudo apt-get install -y ffmpeg
       - name: Update assets
-        run: python script.py ${{ matrix.filter }} ${{ env.FORCE }}
+        run: python script.py ${{ matrix.args }} ${{ env.FORCE }}
