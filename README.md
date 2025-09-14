@@ -1,5 +1,10 @@
-# Arknights assets
+# Arknights Wordle icon and database repo
 
-Dumped using ArknightsStudio
+Updated using Github Actions (when working)
 
-Previous repository broke because of the 2.5 update and its size.
+### Scripts should run in this order:
+sync.yml
+update.yml
+    build.py
+    clean.py
+    sanity_check.py

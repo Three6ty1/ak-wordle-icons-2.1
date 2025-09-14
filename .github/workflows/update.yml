@@ -1,0 +1,56 @@
+name: Update the list of operators and the icons used.
+
+on:
+  push:
+    branches:
+      - en
+  workflow_dispatch: # on button click
+  
+concurrency:
+  group: '${{ github.ref }}'
+
+
+jobs:
+  remove-files:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout to repo
+        uses: actions/checkout@v4
+        with:
+          ref: 'en'
+
+      - name: Free Disk Space (Ubuntu)
+        uses: jlumbroso/free-disk-space@main
+        with:
+          large-packages: false
+
+      - name: Install python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Build operator database
+        env:
+          RAW_DATA_PATH: $ {{ env.RAW_DATA_PATH }}
+          OLD_OPERATOR_DB_JSON_PATH: $ {{ env.OLD_OPERATOR_DB_JSON_PATH }}
+          OPERATOR_DB_JSON_PATH: $ {{ env.OPERATOR_DB_JSON_PATH }}
+        run: python build.py
+
+      # - name: Delete unnecessary files
+      #   env:
+      #     AVATAR_PATH: $ {{ env.AVATAR_PATH }}
+      #     AVATAR_E2_PATH: $ {{ env.AVATAR_E2_PATH }}
+      #     OPERATOR_DB_JSON_PATH: $ {{ env.OPERATOR_DB_JSON_PATH }}
+      #   run: python clean.py
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Updating repo with new operators"
+          git push
+        shell: bash  
