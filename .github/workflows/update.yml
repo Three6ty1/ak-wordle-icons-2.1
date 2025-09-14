@@ -22,10 +22,10 @@ jobs:
         with:
           ref: 'en'
 
-      - name: Free Disk Space (Ubuntu)
-        uses: jlumbroso/free-disk-space@main
-        with:
-          large-packages: false
+      # - name: Free Disk Space (Ubuntu)
+      #   uses: jlumbroso/free-disk-space@main
+      #   with:
+      #     large-packages: false
 
       - name: Install python
         uses: actions/setup-python@v5
@@ -37,7 +37,7 @@ jobs:
           RAW_DATA_PATH: $ {{ env.RAW_DATA_PATH }}
           OLD_OPERATOR_DB_JSON_PATH: $ {{ env.OLD_OPERATOR_DB_JSON_PATH }}
           OPERATOR_DB_JSON_PATH: $ {{ env.OPERATOR_DB_JSON_PATH }}
-        run: python build.py
+        run: python ./build.py
 
       # - name: Delete unnecessary files
       #   env:
