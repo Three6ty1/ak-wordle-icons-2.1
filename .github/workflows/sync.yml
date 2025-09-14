@@ -14,6 +14,5 @@ jobs:
       - uses: tgymnich/fork-sync@v2.0.10
         with:
           token: ${{ secrets.AUTO_MERGE }}
-          owner: Three6ty1
-          base: ak-wordle-icons-2.1
+          base: en
           head: en
