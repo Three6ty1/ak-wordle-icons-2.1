@@ -11,8 +11,41 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: tgymnich/fork-sync@v2.0.10
+      - name: Sync fork to upstream
+        uses: tgymnich/fork-sync@v2.0.10
         with:
           token: ${{ secrets.AUTO_MERGE }}
           base: en
           head: en
+
+      - name: Checkout to personal en repository
+        uses: actions/checkout@v5
+        with:
+          repository: Three6ty1/ak-wordle-icons-2.1
+          path: icons
+          sparse-checkout: |
+            /*
+            !/*/
+
+      - name: Checkout to Kengxxiao/ArknightsGameData_YoStar
+        uses: actions/checkout@v5
+        with: 
+          repository: Kengxxiao/ArknightsGameData_YoStar
+          path: source
+          sparse-checkout: |
+            en_US/gamedata/excel/handbook_info_table.json
+            en_US/gamedata/excel/character_table.json
+
+      - name: Download files to repo
+        run: |
+          cp source/en_US/gamedata/excel/handbook_info_table.json icons/handbook_info_table.json
+          cp en_US/gamedata/excel/character_table.json icons/character_table.json
+      
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Updating repo with new character information tables"
+          git push
+        shell: bash  
