@@ -1,6 +1,10 @@
-# Arknights Assets (en)
+# Arknights Wordle icon and database repo
 
-Dumped using ArknightsStudio
+Updated using Github Actions (when working)
 
-See the master branch for more information.
-See the voice branch for audio.
+### Scripts should run in this order:
+sync.yml
+update.yml
+    build.py
+    clean.py
+    sanity_check.py
