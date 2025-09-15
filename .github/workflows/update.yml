@@ -1,6 +1,7 @@
 name: Update the list of operators and the icons used.
 
 on:
+  workflow_dispatch: # on button click
   push:
     branches:
       - en
@@ -8,8 +9,6 @@ on:
       - '**.bytes'
       - '**.png'
       - '**.json'
-    
-  workflow_dispatch: # on button click
   
 concurrency:
   group: '${{ github.ref }}'
