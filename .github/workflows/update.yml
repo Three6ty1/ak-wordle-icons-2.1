@@ -40,11 +40,7 @@ jobs:
           python-version: '3.12'
 
       - name: Build operator database
-        env:
-          RAW_DATA_PATH: ${{ vars.RAW_DATA_PATH }}
-          OLD_OPERATOR_DB_JSON_PATH: ${{ vars.OLD_OPERATOR_DB_JSON_PATH }}
-          OPERATOR_DB_JSON_PATH: ${{ vars.OPERATOR_DB_JSON_PATH }}
-        run: python build.py
+        run: python ./operator_db/build.py
 
       # - name: Delete unnecessary files
       #   env:

@@ -94,4 +94,5 @@ aliases = {
     "Asbestos": ["Electricity is running through my veins our history wont be written in chains", "Though I lost myself through what Ive done the price wont be in vain"],
     "Broca": ["I used to freeze up in the face of danger", "Now that youre my guardian angel"],
     "Aciddrop": ["Go ahead and try to test me", "We are never backing down never letting up"],
+    "Wiš'adel": ["W", "Wisadel"]
 }

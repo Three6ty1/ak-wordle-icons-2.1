@@ -3,11 +3,13 @@ from pprint import pprint
 from alias import aliases
 import os
 import shutil
+import sys
 
 INFECTED_INDEX = 8
-OPERATOR_PATH = os.environ.get("OPERATOR_DB_JSON_PATH")
-OLD_OPERATOR_PATH = os.environ.get("OLD_OPERATOR_DB_JSON_PATH")
-RAW_DATA_PATH = os.environ.get("RAW_DATA_PATH")
+OPERATOR_PATH = "./operator_db/operator_db.json"
+OLD_OPERATOR_PATH = "./operator_db/old_operator_db.json"
+HANDBOOK_INFO_TABLE_PATH = "./operator_db/handbook_info_table.json"
+CHARACTER_TABLE_PATH = "./operator_db/character_table.json"
 
 def get_profile_info(profile_data, id):
     # find entry in profile data
@@ -86,6 +88,8 @@ def get_group(info):
         group = "Blacksteel Worldwide"
     elif "reserve" in group:
         group = "Reserve " + group[-1]
+    elif group == "laios":
+        group = "Laios' Party"
     else:
         group = group.capitalize()
 
@@ -126,7 +130,7 @@ def get_class(info):
 
     return _class
 
-def handleRaceCases(race):
+def handleRaceCases(race: str):
     if "unknown" in race.lower() or "undisclosed" in race.lower(): # afaik, Ch'en and Nian special case
         race = "Unknown/Undisclosed"
     elif any(char.isdigit() for char in race): # Robots special case
@@ -137,6 +141,8 @@ def handleRaceCases(race):
         race = "Phidia"
     elif race == "Rebbah": # Hyena diferent name case
         race = "Reproba"
+    elif "Self-declared" in race: # Danmeshi collab <3
+        race = race.replace(" (Self-declared)", "")
 
     return race
 
@@ -152,52 +158,36 @@ def updatePreviousOldVersion():
         shutil.copyfile(OPERATOR_PATH, OLD_OPERATOR_PATH)
         print("Successfully rewrote old file")
     except Exception as e:
-        print(f"Unexpected error : {e}")
+        print(f"Old file doesn't exist/Unexpected error : {e}")
 
-# From AI search results
-def find_first_matching_file_os(directory_path, start_string):
-    print(f"Attempting to find first matching file for {directory_path} file name {start_string}")
-    try:
-        for filename in os.listdir(directory_path):
-            if filename.startswith(start_string):
-                print(f"Found matching file {filename}")
-                return os.path.join(directory_path, filename)
-        return None
-    except FileNotFoundError:
-        print(f"Error: Directory '{directory_path}' not found.")
-        return None
+def getOldInfo(oldOperators):
+    info = {
+        "nations": set(),
+        "races": set(),
+        "groups": set(),
+    }
 
-# From AI search results
-def read_bytes_file_to_json(file_path):
-    print(f"Attempting to read file bytes to json {file_path}")
-    try:
-        with open(file_path, 'rb') as f:  # Open in binary read mode ('rb')
-            byte_data = f.read()
-        
-        # Decode the bytes into a UTF-8 string
-        decoded_string = byte_data.decode('utf-8')
-        
-        print(decoded_string)
+    for operator in oldOperators.values():
+        info["nations"].add(operator["nation"])
+        info["races"].add(operator["race"])
+        info["groups"].add(operator["group"])
 
-        # Parse the JSON string into a Python dictionary
-        json_data = json.loads(decoded_string)
-        
-        print("Successfully decoded file")
-        return json_data
-    except FileNotFoundError:
-        print(f"Error: File not found at {file_path}")
-        return None
-    except json.JSONDecodeError as e:
-        print(f"Error decoding JSON from file: {e}")
-        return None
-    except UnicodeDecodeError as e:
-        print(f"Error decoding bytes to string: {e}. Ensure the correct encoding is used.")
-        return None
+    res = {
+        "nations": sorted(list(info["nations"])),
+        "races": sorted(list(info["races"])),
+        "groups": sorted(list(info["groups"]))
+    }
+
+    print(res)
+
+    return res
 
 def main():
-    print(f"Environment variables: RAW_DATA_PATH {RAW_DATA_PATH} OLD_OPERATOR_PATH {OLD_OPERATOR_PATH} OPERATOR_PATH {OPERATOR_PATH}")
-    
-    updatePreviousOldVersion()
+    if sys.argv[0] == True:
+        print("Replacing old version flag set to true, updating old file")
+        updatePreviousOldVersion()
+    else:
+        print("Replacing old version flag is empty/false, skipping old file update")
 
     ignored = []
     nations = set()
@@ -205,11 +195,14 @@ def main():
     groups = set()
     new = []
 
-    char_data = read_bytes_file_to_json(find_first_matching_file_os(RAW_DATA_PATH, 'character_table'))
-    profile_data = read_bytes_file_to_json(find_first_matching_file_os(RAW_DATA_PATH, 'handbook_info_tables'))
+    with open('./operator_db/character_table.json', 'r', encoding="utf-8") as f:
+        char_data = json.load(f)
 
-    with open(OLD_OPERATOR_PATH, 'r', encoding="utf-8") as f:
-        old_operators = json.load(f)
+        with open('./operator_db/handbook_info_table.json', 'r', encoding="utf-8") as ff:
+            profile_data = json.load(ff)["handbookDict"]
+
+            with open('./operator_db/operator_db_old.json', 'r', encoding="utf-8") as fff:
+                old_operators = json.load(fff)
 
     operators = {}
 
@@ -265,18 +258,32 @@ def main():
         groups.add(group)
         nations.add(nation)
 
+    old_info = getOldInfo(old_operators)
+
     # pprint(operators)
     # Shalem has 2 entries
+    print("//////////////////////////////////////////////////")
     print("Ignored operators: " + str(len(ignored)))
     print(ignored)
+    print("//////////////////////////////////////////////////")
     print(str(len(nations)) + ' unique nations')
     print(sorted(nations))
+    print(f"Compared to {len(old_info['nations'])} old nations")
+    print(old_info["nations"])
+    print("//////////////////////////////////////////////////")
     print(str(len(races)) + ' unique races')
     print(sorted(races))
+    print(f"Compared to {len(old_info["races"])} old races")
+    print(old_info["races"])
+    print("//////////////////////////////////////////////////")
     print(str(len(groups)) + ' unique groups')
     print(sorted(groups))
+    print(f"Compared to {len(old_info['groups'])} old groups")
+    print(old_info["groups"])
+    print("//////////////////////////////////////////////////")
     print(str(len(new)) + ' new operators')
     print(sorted(new))
+    print("//////////////////////////////////////////////////")
     print(str(len(old_operators)) + ' old operators vs ' + str(len(operators)) + ' new operators')
 
     missing_alias = []
