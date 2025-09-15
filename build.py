@@ -175,7 +175,7 @@ def read_bytes_file_to_json(file_path):
             byte_data = f.read()
         
         # Decode the bytes into a UTF-8 string
-        decoded_string = byte_data.decode('latin-1')
+        decoded_string = byte_data.decode('utf-8')
         
         print(decoded_string)
 
