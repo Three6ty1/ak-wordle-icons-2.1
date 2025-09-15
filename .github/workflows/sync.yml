@@ -1,4 +1,4 @@
-name: Fork Sync
+name: Fork and Json Sync
 
 on:
   schedule:
@@ -24,8 +24,8 @@ jobs:
           repository: Three6ty1/ak-wordle-icons-2.1
           path: icons
           sparse-checkout: |
-            /*
-            !/*/
+            *
+          sparse-checkout-cone-mode: false
 
       - name: Checkout to Kengxxiao/ArknightsGameData_YoStar
         uses: actions/checkout@v5
