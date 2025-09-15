@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - en
+    paths:
+      - '**.bytes'
+      - '**.png'
+      - '**.json'
+    
   workflow_dispatch: # on button click
   
 concurrency:
@@ -37,9 +42,9 @@ jobs:
 
       - name: Build operator database
         env:
-          RAW_DATA_PATH: ${{ env.RAW_DATA_PATH }}
-          OLD_OPERATOR_DB_JSON_PATH: ${{ env.OLD_OPERATOR_DB_JSON_PATH }}
-          OPERATOR_DB_JSON_PATH: ${{ env.OPERATOR_DB_JSON_PATH }}
+          RAW_DATA_PATH: ${{ vars.RAW_DATA_PATH }}
+          OLD_OPERATOR_DB_JSON_PATH: ${{ vars.OLD_OPERATOR_DB_JSON_PATH }}
+          OPERATOR_DB_JSON_PATH: ${{ vars.OPERATOR_DB_JSON_PATH }}
         run: python build.py
 
       # - name: Delete unnecessary files
