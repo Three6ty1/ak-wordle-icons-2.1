@@ -24,8 +24,7 @@ jobs:
           repository: Three6ty1/ak-wordle-icons-2.1
           ref: en
           path: icons
-          sparse-checkout: |
-            *
+          sparse-checkout: .
           sparse-checkout-cone-mode: false
 
       - name: Checkout to Kengxxiao/ArknightsGameData_YoStar
