@@ -1,7 +1,8 @@
 name: Update the list of operators and the icons used.
 
 on:
-  workflow_dispatch: # on button click
+  workflow_dispatch: # on button click. Has to be on master
+
   push:
     branches:
       - en
@@ -12,7 +13,6 @@ on:
   
 concurrency:
   group: '${{ github.ref }}'
-
 
 jobs:
   remove-files:
