@@ -39,6 +39,9 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: npm Install
+        run: npm install
+
       - name: Build operator database
         run: python scripts/build.py true
 
@@ -52,7 +55,7 @@ jobs:
         run: python scripts/sanity_check.py
 
       - name: Seed database
-        run: echo "Not implemented"
+        run: npx ts-node ./prisma/seed.ts
 
       - name: Commit changes
         run: |
