@@ -7,9 +7,7 @@ on:
     branches:
       - en
     paths:
-      - '**.bytes'
-      - '**.png'
-      - '**.json'
+      - 'assets/gamedata/**' # avoid looping triggers since this script will udpate the icon assets
   
 concurrency:
   group: '${{ github.ref }}'
@@ -40,10 +38,19 @@ jobs:
           python-version: '3.12'
 
       - name: Build operator database
-        run: python ./operator_db/build.py
+        run: python ./scripts/build.py true
+
+      - name: Remove all icons that aren't in the operator db
+        run: python ./scripts/clean.py
 
       - name: Convert images to webp
         run: ./convert/convert.sh
+
+      - name: Sanity check all icons and db
+        run: python ./scripts/sanity_check.py
+
+      - name: Seed database
+        run: echo "Not implemented"
 
       - name: Commit changes
         run: |

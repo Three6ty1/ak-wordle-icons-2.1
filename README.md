@@ -7,4 +7,5 @@ sync.yml
 update.yml
     build.py
     clean.py
+    convert.sh
     sanity_check.py

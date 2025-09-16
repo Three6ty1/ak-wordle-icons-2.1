@@ -3,7 +3,7 @@
 # Need to download cwebp and put /bin/.exe into this directory https://developers.google.com/speed/webp/download 
 # Need to run in the same directory as avatars
 
-PARAMS=('-m 6 -q 70 -mt -af -progress -resize 180 180')
+PARAMS=('-q 25 -alpha_q 25 -m 6 -af -mt -progress -resize 180 180')
 basepwd=$PWD
 
 if [ $# -ne 0 ]; then
