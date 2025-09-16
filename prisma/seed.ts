@@ -37,9 +37,10 @@ if (args.length > 0) {
 
 const prisma = new PrismaClient()
 async function main() {
+  throw ("stop")
   let amt = 0
   const operator_db: Record<string, Operator> = db;
-  // await prisma.operator.deleteMany()
+  
   const operators = await prisma.operator.count();
   for (const key in operator_db) {
       const operator = operator_db[key]
