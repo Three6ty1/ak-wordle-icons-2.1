@@ -24,6 +24,10 @@ jobs:
         with:
           ref: 'en'
           sparse-checkout: |
+            scripts/
+            operator_db/
+            convert/
+            source_json/
             assets/dyn/arts/charavatars/
             assets/dyn/gamedata/excel
 
