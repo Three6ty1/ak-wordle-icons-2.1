@@ -42,12 +42,8 @@ jobs:
       - name: Build operator database
         run: python ./operator_db/build.py
 
-      # - name: Delete unnecessary files
-      #   env:
-      #     AVATAR_PATH: $ {{ env.AVATAR_PATH }}
-      #     AVATAR_E2_PATH: $ {{ env.AVATAR_E2_PATH }}
-      #     OPERATOR_DB_JSON_PATH: $ {{ env.OPERATOR_DB_JSON_PATH }}
-      #   run: python clean.py
+      - name: Convert images to webp
+        run: ./convert/convert.sh
 
       - name: Commit changes
         run: |

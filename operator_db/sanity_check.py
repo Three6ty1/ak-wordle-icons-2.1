@@ -8,9 +8,9 @@ import json
 import os
 import pprint
 
-OPERATOR_PATH = os.environ.get("OPERATOR_DB_JSON_PATH")
-AVATAR_PATH = os.environ.get("AVATAR_PATH")
-E2_AVATAR_PATH = os.environ.get("AVATAR_E2")
+OPERATOR_PATH = "./operator_db/operator_db.json"
+AVATAR_PATH = "./assets/dyn/arts/charavatars/"
+E2_AVATAR_PATH = "./assets/dyn/arts/charavatars/elite/"
 
 with open(OPERATOR_PATH, 'r', encoding="utf-8") as f:
     char_data = json.load(f)
