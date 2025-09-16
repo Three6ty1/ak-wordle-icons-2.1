@@ -2,7 +2,7 @@ name: Fork and Json Sync
 
 on:
   schedule:
-    - cron: '0 0 * * *' # once every day at midnight
+    - cron: '0 12 * * 0' # once every week, midday sunday
   workflow_dispatch: # on button click
 
 jobs:
