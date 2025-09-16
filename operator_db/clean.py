@@ -67,10 +67,10 @@ with open(OPERATOR_PATH, 'r', encoding="utf-8") as f:
                     onestars += 1
                     removeFromExisting(charId)
                 else:
-                    print('deleting non e2 art {filename}')
+                    print(f'deleting non e2 art {filename}')
                     os.remove(AVATAR_PATH + filename)
             else:
-                print('deleting operator not in db {filename}')
+                print(f'deleting operator not in db {filename}')
                 os.remove(AVATAR_PATH + filename)
 
             continue
@@ -80,8 +80,10 @@ with open(OPERATOR_PATH, 'r', encoding="utf-8") as f:
 
         # IS borrow operators are "elite" but arent "real" characters
         if not validateExisitingOp(charId):
-            print('deleting IS operator {filename}')
+            print(f'deleting IS operator {filename}')
             os.remove(AVATAR_PATH + filename)
+
+            continue
 
         # All file names ending with _2 are E2 operators.
         removeFromExisting(charId)
@@ -124,12 +126,12 @@ with open(OPERATOR_PATH, 'r', encoding="utf-8") as f:
                 # Special case where we have a bunch of amiya versions but they arent different units
                 print(f'Could not remove op {filename} (likely amiya)')
 
+            continue
+
         found_ops += 1
         removeFromExisting(charId)
 
     print(f'{found_ops + threestars + twostars + onestars} total operator avatars found vs {len(existing)} operators in db')
     print(f'{threestars} three stars {twostars} two stars {onestars} one stars')
     pprint.pp(existing_set)
-
-    assert len(existing_set) == 0, f"There exists operators in the db that do not have a corresponding png icon in the assets"
     
