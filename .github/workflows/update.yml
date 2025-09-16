@@ -48,7 +48,7 @@ jobs:
         run: python scripts/clean.py
 
       - name: Convert images to webp
-        run:
+        run: |
           git update-index --chmod=+x ./convert/convert.sh
           convert/convert.sh
 
