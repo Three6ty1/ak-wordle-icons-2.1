@@ -39,8 +39,16 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Setup node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 20
+
       - name: npm Install
         run: npm install
+
+      - name: Prisma generate
+        run: npx prisma generate
 
       - name: Build operator database
         run: python scripts/build.py true
