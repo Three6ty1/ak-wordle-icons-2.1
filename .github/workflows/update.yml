@@ -26,7 +26,6 @@ jobs:
           sparse-checkout: |
             scripts/
             operator_db/
-            convert/
             source_json/
             prisma/
             assets/dyn/arts/charavatars/
@@ -58,7 +57,7 @@ jobs:
         run: python scripts/clean.py
 
       - name: Convert images to webp
-        run: convert/convert.sh
+        run: scripts/convert.sh
 
       - name: Sanity check all icons and db
         run: python scripts/sanity_check.py
