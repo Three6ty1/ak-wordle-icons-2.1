@@ -1,9 +1,22 @@
 import json
 import os
+import pprint
 
 OPERATOR_PATH = "./operator_db/operator_db.json"
 AVATAR_PATH = "./assets/dyn/arts/charavatars/"
 E2_AVATAR_PATH = "./assets/dyn/arts/charavatars/elite/"
+
+existing_set = []
+
+def removeFromExisting(charId):
+    try:
+        existing_set.remove(charId)
+    except:
+        print(f"Could not remove {charId} from existing operator set")
+
+# Check if the charId is an existing operator in the set
+def validateExisitingOp(charId):
+    return charId in existing_set
 
 with open(OPERATOR_PATH, 'r', encoding="utf-8") as f:
     char_data = json.load(f)
@@ -12,6 +25,7 @@ with open(OPERATOR_PATH, 'r', encoding="utf-8") as f:
 
     for info in char_data.values():
         existing[info['charId']] = info['rarity']
+        existing_set.append(info['charId'])
 
     found_ops = 0
     threestars = 0
@@ -19,6 +33,8 @@ with open(OPERATOR_PATH, 'r', encoding="utf-8") as f:
     onestars = 0
 
     directory = os.fsencode(AVATAR_PATH)
+    
+    print(f"//////////////////// Parsing {AVATAR_PATH} ////////////////////")
 
     for file in os.listdir(directory):
         filename = os.fsdecode(file)
@@ -26,68 +42,94 @@ with open(OPERATOR_PATH, 'r', encoding="utf-8") as f:
         if not os.path.isfile(AVATAR_PATH + filename):
             continue
 
-        # If webp we've converted it already
-        if filename.endswith(".webp"):
-            charId = filename.replace('.webp', '')
-            if charId in existing:
-                if existing[charId] == 3:
-                    threestars += 1
-                elif existing[charId] == 2:
-                    twostars += 1
-                elif existing[charId] == 1:
-                    onestars += 1
-
-            found_ops += 1
-            continue
-
         # Skip the essential files we need to run this script
-        if filename.endswith(".exe") or filename.endswith(".sh"):
+        if not filename.endswith(".png"):
             continue
 
-        # not a character so we skip
+        # Not a character so we skip
         if not filename.startswith("char"):
             os.remove(AVATAR_PATH + filename)
-        elif not filename.endswith('_2.png'):
-            charId = filename.replace('.webp', '')
+            continue
+
+        # Check if the operator is a 3, 2 or 1 star operator.
+        if not filename.endswith('_2.png'):
+            charId = filename.replace('.png', '')
+
+            # If the character exists and they are not a 3, 2 or 1 star then delete their non-e2 art
             if charId in existing:
                 if existing[charId] == 3:
                     threestars += 1
+                    removeFromExisting(charId)
                 elif existing[charId] == 2:
                     twostars += 1
+                    removeFromExisting(charId)
                 elif existing[charId] == 1:
                     onestars += 1
+                    removeFromExisting(charId)
                 else:
-                    print('deleting non e2 art ' + filename)
+                    print('deleting non e2 art {filename}')
                     os.remove(AVATAR_PATH + filename)
             else:
-                print('deleting operator skin' + filename)
+                print('deleting operator not in db {filename}')
                 os.remove(AVATAR_PATH + filename)
-        else:
-            found_ops += 1
 
-    print("Into elite 2 ##################################")
+            continue
+
+        # Icon is an e2 icon
+        charId = filename.replace('_2.png', '')
+
+        # IS borrow operators are "elite" but arent "real" characters
+        if not validateExisitingOp(charId):
+            print('deleting IS operator {filename}')
+            os.remove(AVATAR_PATH + filename)
+
+        # All file names ending with _2 are E2 operators.
+        removeFromExisting(charId)
+        found_ops += 1
+
+    print(f"//////////////////// Parsing {E2_AVATAR_PATH} ////////////////////")
 
     eliteDirectory = os.fsencode(E2_AVATAR_PATH)
 
     for file in os.listdir(eliteDirectory):
         filename = os.fsdecode(file)
 
+        # If file doesnt exist
         if not os.path.isfile(E2_AVATAR_PATH + filename):
             continue
 
-        if filename.endswith(".webp"):
-            found_ops += 1
-            continue
-        if filename.endswith(".exe") or filename.endswith(".sh"):
-            continue
+        # If file is not a png
+        if not filename.endswith(".png"):
+            continue 
+
+        # If the file is not a character
         if not filename.startswith("char"):
             os.remove(E2_AVATAR_PATH + filename)
-        elif not filename.endswith('_2.png'):
-            print('deleting operator skin' + filename)
-            os.remove(E2_AVATAR_PATH + filename)
-        else:
-            found_ops += 1
+            continue
 
-    print(str(found_ops) + ' total operator avatars found vs ' + str(len(existing)) + ' operators in db')
-    print(str(threestars) + ' three stars ' + str(twostars) + ' two stars ' + str(onestars) + ' one stars')
+        # If the image file is not an elite operator (they should be because its in the elite folder)
+        if not filename.endswith('_2.png'):
+            print(f'deleting operator in e2 directory {filename}')
+            os.remove(E2_AVATAR_PATH + filename)
+            continue
+        
+        charId = filename.replace('_2.png', '')
+
+        # Check if the character is an existing operator
+        if not validateExisitingOp(charId):
+            try:
+                print(f'deleting other op {filename}')
+                os.remove(E2_AVATAR_PATH + filename)
+            except:
+                # Special case where we have a bunch of amiya versions but they arent different units
+                print(f'Could not remove op {filename} (likely amiya)')
+
+        found_ops += 1
+        removeFromExisting(charId)
+
+    print(f'{found_ops + threestars + twostars + onestars} total operator avatars found vs {len(existing)} operators in db')
+    print(f'{threestars} three stars {twostars} two stars {onestars} one stars')
+    pprint.pp(existing_set)
+
+    assert len(existing_set) == 0, f"There exists operators in the db that do not have a corresponding png icon in the assets"
     
