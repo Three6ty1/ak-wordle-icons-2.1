@@ -50,7 +50,7 @@ jobs:
       - name: Convert images to webp
         run: |
           git update-index --chmod=+x ./convert/convert.sh
-          convert/convert.sh
+          ./convert/convert.sh
 
       - name: Sanity check all icons and db
         run: python scripts/sanity_check.py
