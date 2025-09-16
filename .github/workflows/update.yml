@@ -48,6 +48,7 @@ jobs:
         run: python scripts/clean.py
 
       - name: Convert images to webp
+        shell: bash-wrapper {0}
         run: convert/convert.sh
 
       - name: Sanity check all icons and db
