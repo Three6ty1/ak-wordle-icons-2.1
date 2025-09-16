@@ -38,8 +38,8 @@ jobs:
 
       - name: Download files to repo
         run: |
-          cp source/en_US/gamedata/excel/handbook_info_table.json icons/operator_db/handbook_info_table.json
-          cp source/en_US/gamedata/excel/character_table.json icons/operator_db/character_table.json
+          cp source/en_US/gamedata/excel/handbook_info_table.json icons/source_json/handbook_info_table.json
+          cp source/en_US/gamedata/excel/character_table.json icons/source_json/character_table.json
       
       - name: Commit changes
         run: |
