@@ -15,11 +15,11 @@ shopt -s nullglob nocaseglob extglob
 cd "$basepwd/assets/dyn/arts/charavatars/"
 
 for FILE in *.@(jpg|jpeg|tif|tiff|png); do 
-    $basepwd/convert/cwebp.exe $PARAMS "$FILE" -o "${FILE%.*}".webp;
+    cwebp $PARAMS "$FILE" -o "${FILE%.*}".webp;
 done
 
 cd "./elite"
 
 for FILE in *.@(jpg|jpeg|tif|tiff|png); do 
-    $basepwd/convert/cwebp.exe $PARAMS "$FILE" -o "${FILE%.*}".webp;
+    cwebp $PARAMS "$FILE" -o "${FILE%.*}".webp;
 done

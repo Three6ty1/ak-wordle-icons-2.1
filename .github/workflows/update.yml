@@ -31,10 +31,8 @@ jobs:
             assets/dyn/arts/charavatars/
             assets/dyn/gamedata/excel
 
-      # - name: Free Disk Space (Ubuntu)
-      #   uses: jlumbroso/free-disk-space@main
-      #   with:
-      #     large-packages: false
+      - name: Install cwebp
+        run: sudo apt-get update && sudo apt-get install -y webp
 
       - name: Install python
         uses: actions/setup-python@v5
