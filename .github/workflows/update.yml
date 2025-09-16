@@ -28,6 +28,7 @@ jobs:
             operator_db/
             convert/
             source_json/
+            prisma/
             assets/dyn/arts/charavatars/
             assets/dyn/gamedata/excel
 
