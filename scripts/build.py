@@ -7,9 +7,9 @@ import sys
 
 INFECTED_INDEX = 8
 OPERATOR_PATH = "./operator_db/operator_db.json"
-OLD_OPERATOR_PATH = "./operator_db/old_operator_db.json"
-HANDBOOK_INFO_TABLE_PATH = "./operator_db/handbook_info_table.json"
-CHARACTER_TABLE_PATH = "./operator_db/character_table.json"
+OLD_OPERATOR_DB_PATH = "./operator_db/old_operator_db.json"
+HANDBOOK_INFO_TABLE_PATH = "./source_json/handbook_info_table.json"
+CHARACTER_TABLE_PATH = "./source_json/character_table.json"
 
 def get_profile_info(profile_data, id):
     # find entry in profile data
@@ -155,7 +155,7 @@ def ignoreISOps(name):
 def updatePreviousOldVersion():
     print("Attempting to overwrite old db file")
     try: 
-        shutil.copyfile(OPERATOR_PATH, OLD_OPERATOR_PATH)
+        shutil.copyfile(OPERATOR_PATH, OLD_OPERATOR_DB_PATH)
         print("Successfully rewrote old file")
     except Exception as e:
         print(f"Old file doesn't exist/Unexpected error : {e}")
@@ -183,7 +183,7 @@ def getOldInfo(oldOperators):
     return res
 
 def main():
-    if sys.argv[0] == True:
+    if sys.argv[0] == "true":
         print("Replacing old version flag set to true, updating old file")
         updatePreviousOldVersion()
     else:
@@ -195,13 +195,13 @@ def main():
     groups = set()
     new = []
 
-    with open('./operator_db/character_table.json', 'r', encoding="utf-8") as f:
+    with open(CHARACTER_TABLE_PATH, 'r', encoding="utf-8") as f:
         char_data = json.load(f)
 
-        with open('./operator_db/handbook_info_table.json', 'r', encoding="utf-8") as ff:
+        with open(HANDBOOK_INFO_TABLE_PATH, 'r', encoding="utf-8") as ff:
             profile_data = json.load(ff)["handbookDict"]
 
-            with open('./operator_db/operator_db_old.json', 'r', encoding="utf-8") as fff:
+            with open(OLD_OPERATOR_DB_PATH, 'r', encoding="utf-8") as fff:
                 old_operators = json.load(fff)
 
     operators = {}
