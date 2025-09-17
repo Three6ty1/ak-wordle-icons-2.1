@@ -37,7 +37,6 @@ if (args.length > 0) {
 
 const prisma = new PrismaClient()
 async function main() {
-  throw ("stop")
   let amt = 0
   const operator_db: Record<string, Operator> = db;
   
