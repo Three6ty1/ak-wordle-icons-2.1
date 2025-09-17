@@ -252,7 +252,7 @@ def main():
 
         if not name in old_operators:
             print("New operator: " + name)
-            new.append(id)
+            new.append([id, rarity])
 
         races.add(race)
         groups.add(group)
