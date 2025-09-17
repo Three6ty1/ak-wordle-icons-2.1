@@ -1,6 +1,7 @@
 import json
 import os
 import pprint
+import shutil
 
 OPERATOR_PATH = "./operator_db/operator_db.json"
 AVATAR_PATH = "./assets/dyn/arts/charavatars/"
@@ -18,6 +19,28 @@ def removeFromExisting(charId):
 def validateExisitingOp(charId):
     return charId in existing_set
 
+def moveOperators():
+    directory = os.fsencode(AVATAR_PATH)
+    
+    print(f"//////////////////// Moving operators in {AVATAR_PATH} ////////////////////")
+
+    for file in os.listdir(directory):
+        filename = os.fsdecode(file)
+
+        if not os.path.isfile(AVATAR_PATH + filename):
+            continue
+
+        # Skip the essential files we need to run this script
+        if not filename.endswith(".png"):
+            continue
+
+        if not filename.endswith("_2.png"):
+            continue
+
+        # This means the e2 icon is in the wrong directory, we should move it to the correct one.
+        print("Moving e2 art to the elite directory")
+        shutil.move(AVATAR_PATH + filename, f"{AVATAR_PATH}/elite/")
+
 with open(OPERATOR_PATH, 'r', encoding="utf-8") as f:
     char_data = json.load(f)
 
@@ -31,6 +54,8 @@ with open(OPERATOR_PATH, 'r', encoding="utf-8") as f:
     threestars = 0
     twostars = 0
     onestars = 0
+
+    moveOperators()
 
     directory = os.fsencode(AVATAR_PATH)
     
@@ -85,9 +110,8 @@ with open(OPERATOR_PATH, 'r', encoding="utf-8") as f:
 
             continue
 
-        # All file names ending with _2 are E2 operators.
-        removeFromExisting(charId)
-        found_ops += 1
+        raise ValueError("Operators should be in the correct directory")
+        
 
     print(f"//////////////////// Parsing {E2_AVATAR_PATH} ////////////////////")
 
@@ -124,7 +148,7 @@ with open(OPERATOR_PATH, 'r', encoding="utf-8") as f:
                 os.remove(E2_AVATAR_PATH + filename)
             except:
                 # Special case where we have a bunch of amiya versions but they arent different units
-                print(f'Could not remove op {filename} (likely amiya)')
+                print(f'Could not remove op {filename}')
 
             continue
 

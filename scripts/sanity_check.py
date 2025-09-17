@@ -12,6 +12,18 @@ OPERATOR_PATH = "./operator_db/operator_db.json"
 AVATAR_PATH = "./assets/dyn/arts/charavatars/"
 E2_AVATAR_PATH = "./assets/dyn/arts/charavatars/elite/"
 
+def tryRemoving(charId):
+    try:
+        existing.remove(charId)
+    except:
+        print("Operator in avatar does not exist in database: " + charId)
+
+def tryRemovingPng(charId):
+    try:
+        existing_png.remove(charId)
+    except:
+        print("Operator png in avatar does not exist in database: " + charId)
+
 with open(OPERATOR_PATH, 'r', encoding="utf-8") as f:
     char_data = json.load(f)
 
@@ -20,45 +32,55 @@ with open(OPERATOR_PATH, 'r', encoding="utf-8") as f:
     existing_png = []
     icons_png = 0
 
+    out_of_place = []
+    e2_out_of_place = []
+
     for info in char_data.values():
         existing.append(info['charId'])
         existing_png.append(info['charId'])
     
     total_op_db = len(existing)
 
-    print(str(len(existing)) + " Operators in operator_db.json")
-
-    for file in os.listdir(os.fsencode(AVATAR_PATH)) + os.listdir(os.fsencode(E2_AVATAR_PATH)):
+    for file in os.listdir(os.fsencode(AVATAR_PATH)):
         filename = os.fsdecode(file)
 
-        if not os.path.isfile(AVATAR_PATH + filename) and not os.path.isfile(E2_AVATAR_PATH + filename):
+        if not os.path.isfile(AVATAR_PATH + filename):
             continue
 
-        if filename.endswith(".webp"):
-            # 5 or 6 star with E2 art
-            if filename.endswith("_2.webp"):
-                filename = filename.replace("_2.webp", "")
-            else:
-                filename = filename.replace(".webp", "")
-            icons += 1
-
-            try:
-                existing.remove(filename)
-            except:
-                print("Operator in avatar does not exist in database: " + filename)
-        else:
-            # 5 or 6 star with E2 art
-            if filename.endswith("_2.png"):
-                filename = filename.replace("_2.png", "")
-            else:
-                filename = filename.replace(".png", "")
+        if filename.endswith(".png"):
+            charId = filename.replace(".png", "")
             icons_png += 1
-        
-            try:
-                existing_png.remove(filename)
-            except:
-                print("Operator in avatar does not exist in database: " + filename)
+            tryRemovingPng(charId)
+            continue
 
+        charId = filename.replace(".webp", "")
+
+        if filename.endswith("_2.webp"):
+            e2_out_of_place.append(charId)
+            # 5 or 6 star with E2 art
+
+        icons += 1
+        tryRemoving(charId)
+
+    for file in os.listdir(os.fsencode(E2_AVATAR_PATH)):
+        filename = os.fsdecode(file)
+
+        if not os.path.isfile(E2_AVATAR_PATH + filename):
+            continue
+
+        if filename.endswith(".png"):
+            charId = filename.replace("_2.png", "")
+            icons_png += 1
+            tryRemovingPng(charId)
+            continue
+
+        charId = filename.replace("_2.webp", "")
+
+        if not filename.endswith("_2.webp"):
+            out_of_place.append(charId)
+
+        icons += 1
+        tryRemoving(charId)
     
     print("\n"+str(len(existing)) + " Operators exist in database without an avatar (total " + str(total_op_db) + ")")
     print(str(icons) + " Icons in avatars")
@@ -69,4 +91,10 @@ with open(OPERATOR_PATH, 'r', encoding="utf-8") as f:
     print(str(total_op_db - icons_png) + " PNG discrepancy")
     pprint.pp(existing_png)
 
+    print(f"E2 operators that are in the non-e2 directory {len(e2_out_of_place)}")
+    pprint.pp(e2_out_of_place)
+    print(f"Non e2 operators that are in the e2 directory {len(out_of_place)}")
+    pprint.pp(out_of_place)
+
     assert len(existing) == 0, "There is a discrepancy between the operators in the DB and the converted icons"
+    assert len(out_of_place) == 0 and len(e2_out_of_place) == 0, "There are misplaced icons in the wrong directory for certain e2 operators"
