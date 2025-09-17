@@ -282,7 +282,7 @@ def main():
     print(old_info["groups"])
     print("//////////////////////////////////////////////////")
     print(str(len(new)) + ' new operators')
-    print(sorted(new))
+    print(sorted(new, key=lambda x: (x[1], x[0])))
     print("//////////////////////////////////////////////////")
     print(str(len(old_operators)) + ' old operators vs ' + str(len(operators)) + ' new operators')
 
