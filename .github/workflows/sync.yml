@@ -23,13 +23,12 @@ jobs:
       - name: Add upstream repository
         run: |
           git remote add upstream https://github.com/ArknightsAssets/ArknightsAssets2.git
-          git fetch upstream
 
       - name: Sync with upstream/master
         run: |
-          git fetch upstream master
+          git fetch upstream en
           git checkout -B en origin/en
-          git merge upstream/master
+          git merge upstream/en
           git push origin en
 
       - name: Clean up
