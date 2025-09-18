@@ -18,6 +18,7 @@ jobs:
           base: en
           head: en
           merge_method: rebase
+          auto_approve: true
 
       - name: Checkout to personal en repository
         uses: actions/checkout@v5
