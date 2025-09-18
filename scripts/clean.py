@@ -39,7 +39,7 @@ def moveOperators():
 
         # This means the e2 icon is in the wrong directory, we should move it to the correct one.
         print(f"Moving e2 art {filename} to the elite directory")
-        shutil.copy(AVATAR_PATH + filename, E2_AVATAR_PATH)
+        shutil.move(AVATAR_PATH + filename, E2_AVATAR_PATH + filename)
 
 with open(OPERATOR_PATH, 'r', encoding="utf-8") as f:
     char_data = json.load(f)
@@ -110,7 +110,7 @@ with open(OPERATOR_PATH, 'r', encoding="utf-8") as f:
 
             continue
 
-        raise ValueError(f"Operator {charId} should be in the correct directory")
+        raise ValueError(f"Operator {filename} should be in the correct directory")
         
 
     print(f"//////////////////// Parsing {E2_AVATAR_PATH} ////////////////////")
