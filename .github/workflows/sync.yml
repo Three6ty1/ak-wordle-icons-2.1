@@ -12,11 +12,13 @@ jobs:
 
     steps:
       - name: Checkout your forked repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: Three6ty1/ak-wordle-icons-2.1
           token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 0
+          sparse-checkout: |
+            /assets/dyn/arts/charavatars/*
+            /assets/dyn/gamedata/excel/*
 
       - name: Add upstream repository
         run: |
