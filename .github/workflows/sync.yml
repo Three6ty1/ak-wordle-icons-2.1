@@ -11,29 +11,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout your forked repository
-        uses: actions/checkout@v5
+      - name: Sync fork to upstream
+        uses: tgymnich/fork-sync@v2.0.10
         with:
-          repository: Three6ty1/ak-wordle-icons-2.1
-          token: ${{ secrets.GITHUB_TOKEN }}
-          sparse-checkout: |
-            assets/dyn/arts/charavatars/
-            assets/dyn/gamedata/excel/
-
-      - name: Add upstream repository
-        run: |
-          git remote add upstream https://github.com/ArknightsAssets/ArknightsAssets2.git
-
-      - name: Sync with upstream/master
-        run: |
-          git fetch upstream en
-          git checkout -B en origin/en
-          git merge upstream/en
-          git push origin en
-
-      - name: Clean up
-        run: |
-          git remote remove upstream
+          token: ${{ secrets.AUTO_MERGE }}
+          base: en
+          head: en
+          merge_method: rebase
 
       - name: Checkout to personal en repository
         uses: actions/checkout@v5
