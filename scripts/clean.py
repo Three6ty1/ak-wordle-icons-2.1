@@ -110,7 +110,7 @@ with open(OPERATOR_PATH, 'r', encoding="utf-8") as f:
 
             continue
 
-        raise ValueError("Operators should be in the correct directory")
+        raise ValueError(f"Operator {charId} should be in the correct directory")
         
 
     print(f"//////////////////// Parsing {E2_AVATAR_PATH} ////////////////////")
