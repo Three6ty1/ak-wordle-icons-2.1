@@ -24,13 +24,13 @@ jobs:
         run: |
           git remote add upstream https://github.com/ArknightsAssets/ArknightsAssets2.git
           git fetch upstream
-      - name: Merge and clean up
-        run: |
-          git merge upstream/en --allow-unrelated-histories
       - name: Config
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Merge and clean up
+        run: |
+          git merge upstream/en --allow-unrelated-histories
       - name: Push
         run: |
           git push
