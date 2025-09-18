@@ -11,22 +11,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Sync fork to upstream
-        uses: tgymnich/fork-sync@v2.0.10
-        with:
-          token: ${{ secrets.AUTO_MERGE }}
-          base: en
-          head: en
-          merge_method: rebase
-
       - name: Checkout to personal en repository
         uses: actions/checkout@v5
         with:
           repository: Three6ty1/ak-wordle-icons-2.1
           ref: en
           path: icons
-          sparse-checkout: .
+          sparse-checkout: |
+            assets/dyn/arts/charavatars/
+            assets/dyn/arts/charavatars/elite/
+            assets/dyn/gamedata/excel/
+            .
           sparse-checkout-cone-mode: false
+
+      - name: Set up remote fetch upstream
+        run: |
+          git remote add upstream https://github.com/ArknightsAssets/ArknightsAssets2.git
+          git fetch upstream
+        
+      - name: Rebase and clean up
+        run: |
+          git rebase upstream/en
+          git push
+          git remote remove upstream
 
       - name: Checkout to Kengxxiao/ArknightsGameData_YoStar
         uses: actions/checkout@v5
