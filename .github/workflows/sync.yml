@@ -33,7 +33,15 @@ jobs:
       - name: Rebase and clean up
         run: |
           git rebase upstream/en
+      - name: Config
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Push
+        run: |
           git push
+      - name: Remove remote
+        run: |
           git remote remove upstream
           cd ..
 
