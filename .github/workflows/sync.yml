@@ -14,11 +14,9 @@ jobs:
       - name: Sync fork to upstream
         uses: tgymnich/fork-sync@v2.0.10
         with:
-          token: ${{ secrets.AUTO_MERGE }}
           base: en
           head: en
           merge_method: rebase
-          auto_approve: true
 
       - name: Checkout to personal en repository
         uses: actions/checkout@v5
