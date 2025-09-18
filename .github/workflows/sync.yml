@@ -16,23 +16,17 @@ jobs:
         with:
           repository: Three6ty1/ak-wordle-icons-2.1
           ref: en
-          path: icons
           sparse-checkout: |
             assets/dyn/arts/charavatars/
             assets/dyn/arts/charavatars/elite/
-            assets/dyn/gamedata/excel/
-            .
-          sparse-checkout-cone-mode: false
 
       - name: Set up remote fetch upstream
         run: |
-          cd icons
           git remote add upstream https://github.com/ArknightsAssets/ArknightsAssets2.git
           git fetch upstream
-        
-      - name: Rebase and clean up
+      - name: Merge and clean up
         run: |
-          git rebase upstream/en
+          git merge upstream/en
       - name: Config
         run: |
           git config user.name "github-actions[bot]"
@@ -43,7 +37,19 @@ jobs:
       - name: Remove remote
         run: |
           git remote remove upstream
-          cd ..
+
+      - name: Checkout to personal en repository
+        uses: actions/checkout@v5
+        with:
+          repository: Three6ty1/ak-wordle-icons-2.1
+          ref: en
+          path: icons
+          sparse-checkout: |
+            assets/dyn/arts/charavatars/
+            assets/dyn/arts/charavatars/elite/
+            assets/dyn/gamedata/excel/
+            .
+          sparse-checkout-cone-mode: false
 
       - name: Checkout to Kengxxiao/ArknightsGameData_YoStar
         uses: actions/checkout@v5
