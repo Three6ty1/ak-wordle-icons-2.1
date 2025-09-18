@@ -26,7 +26,7 @@ jobs:
           git fetch upstream
       - name: Merge and clean up
         run: |
-          git merge upstream/en
+          git rebase upstream/en --allow-unrelated-histories
       - name: Config
         run: |
           git config user.name "github-actions[bot]"
