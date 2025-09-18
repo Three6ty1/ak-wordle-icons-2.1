@@ -30,7 +30,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
       - name: Merge and clean up
         run: |
-          git rebase upstream/en --allow-unrelated-histories
+          git merge upstream/en --allow-unrelated-histories --strategy-option theirs
       - name: Push
         run: |
           git push
