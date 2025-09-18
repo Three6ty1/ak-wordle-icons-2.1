@@ -27,7 +27,7 @@ jobs:
       - name: Set up remote fetch upstream
         run: |
           cd icons
-          git remote add upstream https://github.com/ArknightsAssets/ArknightsAssets2
+          git remote add upstream https://github.com/ArknightsAssets/ArknightsAssets2.git
           git fetch upstream
         
       - name: Rebase and clean up
