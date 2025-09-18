@@ -26,6 +26,7 @@ jobs:
 
       - name: Set up remote fetch upstream
         run: |
+          cd icons
           git remote add upstream https://github.com/ArknightsAssets/ArknightsAssets2
           git fetch upstream
         
@@ -34,6 +35,7 @@ jobs:
           git rebase upstream/en
           git push
           git remote remove upstream
+          cd ..
 
       - name: Checkout to Kengxxiao/ArknightsGameData_YoStar
         uses: actions/checkout@v5
