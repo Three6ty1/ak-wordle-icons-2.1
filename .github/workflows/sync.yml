@@ -48,6 +48,7 @@ jobs:
             assets/dyn/arts/charavatars/
             assets/dyn/arts/charavatars/elite/
             assets/dyn/gamedata/excel/
+            source_json/
             .
           sparse-checkout-cone-mode: false
 
