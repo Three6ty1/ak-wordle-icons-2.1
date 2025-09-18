@@ -17,8 +17,8 @@ jobs:
           repository: Three6ty1/ak-wordle-icons-2.1
           token: ${{ secrets.GITHUB_TOKEN }}
           sparse-checkout: |
-            /assets/dyn/arts/charavatars/*
-            /assets/dyn/gamedata/excel/*
+            assets/dyn/arts/charavatars/
+            assets/dyn/gamedata/excel/
 
       - name: Add upstream repository
         run: |
