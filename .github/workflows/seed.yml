@@ -1,19 +1,13 @@
-name: Update the list of operators and the icons used.
+name: Seed the database. Run with "gh workflow run .github/workflows/seed.yml"
 
 on:
-  workflow_dispatch: # on button click. Has to be on master
+  workflow_dispatch: # on button click. Has to be on maste
 
-  push:
-    branches:
-      - en
-    paths:
-      - 'assets/gamedata/**' # avoid looping triggers since this script will udpate the icon assets
-  
 concurrency:
   group: '${{ github.ref }}'
 
 jobs:
-  remove-files:
+  seed:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -31,9 +25,6 @@ jobs:
             assets/dyn/arts/charavatars/
             assets/dyn/gamedata/excel
 
-      - name: Install cwebp
-        run: sudo apt-get update && sudo apt-get install -y webp
-
       - name: Install python
         uses: actions/setup-python@v5
         with:
@@ -49,29 +40,10 @@ jobs:
 
       - name: Prisma generate
         run: npx prisma generate
-
-      - name: Build operator database
-        # This is ran with true to overwrite the old db
-        run: python scripts/build.py true
-
-      - name: Remove all icons that aren't in the operator db
-        run: python scripts/clean.py
-
-      - name: Convert images to webp
-        run: scripts/convert.sh
-
+        
       - name: Sanity check all icons and db
         run: python scripts/sanity_check.py
-
-      - name: Commit changes
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
-          git commit -m "Updating repo with new operators"
-          git push
-        shell: bash  
-
+            
       - name: Seed database
         env: 
           DATABASE_URL: ${{ secrets.DATABASE_URL }}

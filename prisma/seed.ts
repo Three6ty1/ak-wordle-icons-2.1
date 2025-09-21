@@ -1,13 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import db from '../operator_db/operator_db.json';
 
-// To run
-////////// DO NOT SEED BEFORE UPDATING SCHEMA VIA NPX PRISMA MIGRATE DEV
-// "npx prisma db seed"
-// npx prisma db seed update // will update all operators with information
-// npx prisma db seed
-// https://github.com/prisma/prisma/issues/7053#issuecomment-1679880184
-
 // Not the same as prisma operator
 interface Operator {
   charId: string;
