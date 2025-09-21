@@ -17,15 +17,6 @@ interface Operator {
   infected: string;
 }
 
-const args = process.argv.slice(2)
-let update = false
-if (args.length > 0) {
-  if (args[0] === "update") {
-    update = true
-    console.log("Updating Fields arg set")
-  }
-}
-
 const prisma = new PrismaClient()
 async function main() {
   let amt = 0
@@ -48,22 +39,20 @@ async function main() {
           name: key,
         }
       })
-      
+
       if (inDB) {
-        if (update) {
-          await prisma.operator.update({
-            where: {
-              name: key,
-            },
-            data: {
-              alias: operator.alias,
-              group: operator.group ? operator.group : null,
-              nation: operator.nation ? operator.nation : null,
-              race: operator.race,
-              infected: operator.infected,
-            },
-          })
-        }
+        await prisma.operator.update({
+          where: {
+            name: key,
+          },
+          data: {
+            alias: operator.alias,
+            group: operator.group ? operator.group : null,
+            nation: operator.nation ? operator.nation : null,
+            race: operator.race,
+            infected: operator.infected,
+          },
+        })
       } else {
         await prisma.operator.create({
           data: {
