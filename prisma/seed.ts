@@ -49,9 +49,6 @@ async function main() {
         }
       })
       
-      const group = operator.group ? operator.group : null;
-      const nation = operator.nation ? operator.nation : null;
-
       if (inDB) {
         if (update) {
           await prisma.operator.update({
@@ -60,8 +57,8 @@ async function main() {
             },
             data: {
               alias: operator.alias,
-              group: group,
-              nation: nation,
+              group: operator.group ? operator.group : null,
+              nation: operator.nation ? operator.nation : null,
               race: operator.race,
               infected: operator.infected,
             },
