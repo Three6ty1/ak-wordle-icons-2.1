@@ -144,14 +144,14 @@ def handle_race_cases(race: str):
 
     return race
 
-# Need this to stop them from getting built into the DB since they have arts and arent cleaned?
-def ignoreISOps(name):
+# Need this to stop them from getting built into the DB since they are operators with profiles
+def ignore_is_ops(name):
     if name == "Pith" or name == "Sharp" or name == "Stormeye" or name == "Touch" or name == "Tulip":
         return True
 
     return False
 
-def updatePreviousOldVersion():
+def update_previous_old_db():
     print("Attempting to overwrite old db file")
     try: 
         shutil.copyfile(OPERATOR_PATH, OLD_OPERATOR_DB_PATH)
@@ -159,7 +159,7 @@ def updatePreviousOldVersion():
     except Exception as e:
         print(f"Old file doesn't exist/Unexpected error : {e}")
 
-def getOldInfo(oldOperators):
+def get_old_info(oldOperators):
     info = {
         "nations": set(),
         "races": set(),
@@ -211,7 +211,7 @@ def print_result(ignored, nations, old_info, races, groups, new, old_operators, 
 def main():
     if sys.argv[0] == "true":
         print("Replacing old version flag set to true, updating old file")
-        updatePreviousOldVersion()
+        update_previous_old_db()
     else:
         print("Replacing old version flag is empty/false, skipping old file update")
 
@@ -244,7 +244,7 @@ def main():
             ignored.append(name)
             continue
 
-        if ignoreISOps(name):
+        if ignore_is_ops(name):
             ignored.append(name)
             continue
         
@@ -284,7 +284,7 @@ def main():
         groups.add(group)
         nations.add(nation)
 
-    old_info = getOldInfo(old_operators)
+    old_info = get_old_info(old_operators)
 
     missing_alias = []
     for alias in aliases:
