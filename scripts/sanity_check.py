@@ -12,13 +12,13 @@ OPERATOR_PATH = "./operator_db/operator_db.json"
 AVATAR_PATH = "./assets/dyn/arts/charavatars/"
 E2_AVATAR_PATH = "./assets/dyn/arts/charavatars/elite/"
 
-def tryRemoving(charId):
+def try_removing_from_existing_set(charId):
     try:
         existing.remove(charId)
     except:
         print("Operator in avatar does not exist in database: " + charId)
 
-def tryRemovingPng(charId):
+def try_removing_from_png_set(charId):
     try:
         existing_png.remove(charId)
     except:
@@ -50,7 +50,7 @@ with open(OPERATOR_PATH, 'r', encoding="utf-8") as f:
         if filename.endswith(".png"):
             charId = filename.replace(".png", "")
             icons_png += 1
-            tryRemovingPng(charId)
+            try_removing_from_png_set(charId)
             continue
 
         charId = filename.replace(".webp", "")
@@ -60,7 +60,7 @@ with open(OPERATOR_PATH, 'r', encoding="utf-8") as f:
             # 5 or 6 star with E2 art
 
         icons += 1
-        tryRemoving(charId)
+        try_removing_from_existing_set(charId)
 
     for file in os.listdir(os.fsencode(E2_AVATAR_PATH)):
         filename = os.fsdecode(file)
@@ -71,7 +71,7 @@ with open(OPERATOR_PATH, 'r', encoding="utf-8") as f:
         if filename.endswith(".png"):
             charId = filename.replace("_2.png", "")
             icons_png += 1
-            tryRemovingPng(charId)
+            try_removing_from_png_set(charId)
             continue
 
         charId = filename.replace("_2.webp", "")
@@ -80,7 +80,7 @@ with open(OPERATOR_PATH, 'r', encoding="utf-8") as f:
             out_of_place.append(charId)
 
         icons += 1
-        tryRemoving(charId)
+        try_removing_from_existing_set(charId)
     
     print("\n"+str(len(existing)) + " Operators exist in database without an avatar (total " + str(total_op_db) + ")")
     print(str(icons) + " Icons in avatars")

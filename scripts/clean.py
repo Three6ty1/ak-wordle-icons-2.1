@@ -9,17 +9,17 @@ E2_AVATAR_PATH = "./assets/dyn/arts/charavatars/elite/"
 
 existing_set = []
 
-def removeFromExisting(charId):
+def remove_from_existing_set(charId):
     try:
         existing_set.remove(charId)
     except:
         print(f"Could not remove {charId} from existing operator set")
 
 # Check if the charId is an existing operator in the set
-def validateExisitingOp(charId):
+def validate_op_exists(charId):
     return charId in existing_set
 
-def moveOperators():
+def move_operators():
     directory = os.fsencode(AVATAR_PATH)
     
     print(f"//////////////////// Moving operators in {AVATAR_PATH} ////////////////////")
@@ -55,7 +55,7 @@ with open(OPERATOR_PATH, 'r', encoding="utf-8") as f:
     twostars = 0
     onestars = 0
 
-    moveOperators()
+    move_operators()
 
     directory = os.fsencode(AVATAR_PATH)
     
@@ -84,13 +84,13 @@ with open(OPERATOR_PATH, 'r', encoding="utf-8") as f:
             if charId in existing:
                 if existing[charId] == 3:
                     threestars += 1
-                    removeFromExisting(charId)
+                    remove_from_existing_set(charId)
                 elif existing[charId] == 2:
                     twostars += 1
-                    removeFromExisting(charId)
+                    remove_from_existing_set(charId)
                 elif existing[charId] == 1:
                     onestars += 1
-                    removeFromExisting(charId)
+                    remove_from_existing_set(charId)
                 else:
                     print(f'deleting non e2 art {filename}')
                     os.remove(AVATAR_PATH + filename)
@@ -104,7 +104,7 @@ with open(OPERATOR_PATH, 'r', encoding="utf-8") as f:
         charId = filename.replace('_2.png', '')
 
         # IS borrow operators are "elite" but arent "real" characters
-        if not validateExisitingOp(charId):
+        if not validate_op_exists(charId):
             print(f'deleting IS operator {filename}')
             os.remove(AVATAR_PATH + filename)
 
@@ -142,7 +142,7 @@ with open(OPERATOR_PATH, 'r', encoding="utf-8") as f:
         charId = filename.replace('_2.png', '')
 
         # Check if the character is an existing operator
-        if not validateExisitingOp(charId):
+        if not validate_op_exists(charId):
             try:
                 print(f'deleting other op {filename}')
                 os.remove(E2_AVATAR_PATH + filename)
@@ -153,7 +153,7 @@ with open(OPERATOR_PATH, 'r', encoding="utf-8") as f:
             continue
 
         found_ops += 1
-        removeFromExisting(charId)
+        remove_from_existing_set(charId)
 
     print(f'{found_ops + threestars + twostars + onestars} total operator avatars found vs {len(existing)} operators in db')
     print(f'{threestars} three stars {twostars} two stars {onestars} one stars')

@@ -93,10 +93,12 @@ def get_group(info):
 
     return group
 
-def get_nation(info):
+def get_nation(info, group):
     nation = info["nationId"]
     
-    if nation == None:
+    if nation == None and group == "Followers":
+        nation = "Rhodes Island"
+    elif nation == None:
         nation = "None"
     elif nation == "rhodes":
         nation = "Rhodes Island"
@@ -252,7 +254,7 @@ def main():
         gender = profile_info[1].split(']')[1].strip()
         race = handle_race_cases(profile_info[5].split(']')[1].strip())
         group = get_group(info)
-        nation = get_nation(info)
+        nation = get_nation(info, group)
         position = info["position"].lower().capitalize()
 
         profession = get_class(info)
