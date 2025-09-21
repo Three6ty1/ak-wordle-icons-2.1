@@ -32,6 +32,8 @@ async function main() {
   const operator_db: Record<string, Operator> = db;
   
   const operators = await prisma.operator.count();
+
+
   for (const key in operator_db) {
       const operator = operator_db[key]
       if (!operator) {
@@ -46,6 +48,9 @@ async function main() {
           name: key,
         }
       })
+      
+      const group = operator.group ? operator.group : null;
+      const nation = operator.nation ? operator.nation : null;
 
       if (inDB) {
         if (update) {
@@ -55,8 +60,8 @@ async function main() {
             },
             data: {
               alias: operator.alias,
-              group: operator.group ? operator.group : null,
-              nation: operator.nation ? operator.nation : null,
+              group: group,
+              nation: nation,
               race: operator.race,
               infected: operator.infected,
             },
