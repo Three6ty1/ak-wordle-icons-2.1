@@ -51,6 +51,7 @@ jobs:
         run: npx prisma generate
 
       - name: Build operator database
+        # This is ran with true to overwrite the old db
         run: python scripts/build.py true
 
       - name: Remove all icons that aren't in the operator db

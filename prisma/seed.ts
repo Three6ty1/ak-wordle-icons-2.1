@@ -6,8 +6,6 @@ import db from '../operator_db/operator_db.json';
 // "npx prisma db seed"
 // npx prisma db seed update // will update all operators with information
 // npx prisma db seed
-// Operator in DB will always be offset by 5 due to deleting the IS operators (5)
-// dumb shit prisma seeding
 // https://github.com/prisma/prisma/issues/7053#issuecomment-1679880184
 
 // Not the same as prisma operator

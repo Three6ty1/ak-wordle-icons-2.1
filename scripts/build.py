@@ -1,11 +1,9 @@
 import json
 from pprint import pprint 
 from alias import aliases
-import os
 import shutil
 import sys
 
-INFECTED_INDEX = 8
 OPERATOR_PATH = "./operator_db/operator_db.json"
 OLD_OPERATOR_DB_PATH = "./operator_db/old_operator_db.json"
 HANDBOOK_INFO_TABLE_PATH = "./source_json/handbook_info_table.json"
@@ -130,7 +128,7 @@ def get_class(info):
 
     return _class
 
-def handleRaceCases(race: str):
+def handle_race_cases(race: str):
     if "unknown" in race.lower() or "undisclosed" in race.lower(): # afaik, Ch'en and Nian special case
         race = "Unknown/Undisclosed"
     elif any(char.isdigit() for char in race): # Robots special case
@@ -141,11 +139,12 @@ def handleRaceCases(race: str):
         race = "Phidia"
     elif race == "Rebbah": # Hyena diferent name case
         race = "Reproba"
-    elif "Self-declared" in race: # Danmeshi collab <3
+    elif "Self-declared" in race: # Danmeshi collab <3 example: "Half-foot (Self-declared)"
         race = race.replace(" (Self-declared)", "")
 
     return race
 
+# Need this to stop them from getting built into the DB since they have arts and arent cleaned?
 def ignoreISOps(name):
     if name == "Pith" or name == "Sharp" or name == "Stormeye" or name == "Touch" or name == "Tulip":
         return True
@@ -181,6 +180,33 @@ def getOldInfo(oldOperators):
     print(res)
 
     return res
+
+def print_result(ignored, nations, old_info, races, groups, new, old_operators, operators, missing_alias):
+    print("//////////////////////////////////////////////////")
+    print("Ignored operators: " + str(len(ignored)))
+    print(ignored)
+    print("//////////////////////////////////////////////////")
+    print(str(len(nations)) + ' unique nations')
+    print(sorted(nations))
+    print(f"Compared to {len(old_info['nations'])} old nations")
+    print(old_info["nations"])
+    print("//////////////////////////////////////////////////")
+    print(str(len(races)) + ' unique races')
+    print(sorted(races))
+    print(f"Compared to {len(old_info["races"])} old races")
+    print(old_info["races"])
+    print("//////////////////////////////////////////////////")
+    print(str(len(groups)) + ' unique groups')
+    print(sorted(groups))
+    print(f"Compared to {len(old_info['groups'])} old groups")
+    print(old_info["groups"])
+    print("//////////////////////////////////////////////////")
+    print(str(len(new)) + ' new operators')
+    print(sorted(new, key=lambda x: (x[1], x[0])))
+    print("//////////////////////////////////////////////////")
+    print(str(len(old_operators)) + ' old operators vs ' + str(len(operators)) + ' new operators')
+    print(str(len(aliases) - len(missing_alias)) + ' aliases added, missing ' + str(len(missing_alias)))
+    pprint(sorted(missing_alias))
 
 def main():
     if sys.argv[0] == "true":
@@ -224,7 +250,7 @@ def main():
         
         infected = get_infected_status(profile_info, name)
         gender = profile_info[1].split(']')[1].strip()
-        race = handleRaceCases(profile_info[5].split(']')[1].strip())
+        race = handle_race_cases(profile_info[5].split(']')[1].strip())
         group = get_group(info)
         nation = get_nation(info)
         position = info["position"].lower().capitalize()
@@ -260,32 +286,6 @@ def main():
 
     old_info = getOldInfo(old_operators)
 
-    # pprint(operators)
-    # Shalem has 2 entries
-    print("//////////////////////////////////////////////////")
-    print("Ignored operators: " + str(len(ignored)))
-    print(ignored)
-    print("//////////////////////////////////////////////////")
-    print(str(len(nations)) + ' unique nations')
-    print(sorted(nations))
-    print(f"Compared to {len(old_info['nations'])} old nations")
-    print(old_info["nations"])
-    print("//////////////////////////////////////////////////")
-    print(str(len(races)) + ' unique races')
-    print(sorted(races))
-    print(f"Compared to {len(old_info["races"])} old races")
-    print(old_info["races"])
-    print("//////////////////////////////////////////////////")
-    print(str(len(groups)) + ' unique groups')
-    print(sorted(groups))
-    print(f"Compared to {len(old_info['groups'])} old groups")
-    print(old_info["groups"])
-    print("//////////////////////////////////////////////////")
-    print(str(len(new)) + ' new operators')
-    print(sorted(new, key=lambda x: (x[1], x[0])))
-    print("//////////////////////////////////////////////////")
-    print(str(len(old_operators)) + ' old operators vs ' + str(len(operators)) + ' new operators')
-
     missing_alias = []
     for alias in aliases:
         try:
@@ -293,8 +293,7 @@ def main():
         except:
             missing_alias.append(alias)
     
-    print(str(len(aliases) - len(missing_alias)) + ' aliases added, missing ' + str(len(missing_alias)))
-    pprint(sorted(missing_alias))
+    print_result(ignored, nations, old_info, races, groups, new, old_operators, operators, missing_alias)
 
     with open(OPERATOR_PATH, 'w', encoding='utf-8') as f:
         json.dump(operators, f, ensure_ascii=False, indent=4)
