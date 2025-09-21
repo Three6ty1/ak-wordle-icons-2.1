@@ -55,8 +55,10 @@ async function main() {
             },
             data: {
               alias: operator.alias,
-              charId: operator.charId,
               group: operator.group ? operator.group : null,
+              nation: operator.nation ? operator.nation : null,
+              race: operator.race,
+              infected: operator.infected,
             },
           })
         }
