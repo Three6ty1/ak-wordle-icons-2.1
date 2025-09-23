@@ -1,0 +1,51 @@
+name: Seed the database. Run with "gh workflow run .github/workflows/seed.yml"
+
+on:
+  workflow_dispatch: # on button click. Has to be on maste
+
+concurrency:
+  group: '${{ github.ref }}'
+
+jobs:
+  seed:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout to repo
+        uses: actions/checkout@v5
+        with:
+          ref: 'en'
+          sparse-checkout: |
+            scripts/
+            operator_db/
+            source_json/
+            prisma/
+            assets/dyn/arts/charavatars/
+            assets/dyn/gamedata/excel
+
+      - name: Install python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Setup node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 20
+
+      - name: npm Install
+        run: npm install
+
+      - name: Prisma generate
+        run: npx prisma generate
+        
+      - name: Sanity check all icons and db
+        run: python scripts/sanity_check.py
+            
+      - name: Seed database
+        env: 
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SHADOW_DATABASE_URL: ${{ secrets.SHADOW_DATABASE_URL }}
+        run: npx ts-node ./prisma/seed.ts
