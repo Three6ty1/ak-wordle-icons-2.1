@@ -68,11 +68,15 @@ jobs:
       
       - name: Capture git status output
         run: |
-          git status >> $GITHUB_OUTPUT
+          {
+            echo 'GIT_STATUS_OUTPUT<<EOF'
+            git status
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
         id: git_status
 
       - name: Exit early if there are no changes
-        if: contains(steps.git_status.outputs, 'Your branch is up to date')
+        if: contains(steps.git_status.outputs.GIT_STATUS_OUTPUT, 'Your branch is up to date')
         run: |
           exit 1
 
