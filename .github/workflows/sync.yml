@@ -68,7 +68,7 @@ jobs:
       
       - name: Capture git status output
         run: |
-          echo "git status" >> $GITHUB_OUTPUT
+          git status >> $GITHUB_OUTPUT
         id: git_status
 
       - name: Exit early if there are no changes
