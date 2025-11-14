@@ -1,8 +1,6 @@
 name: Update the list of operators and the icons used.
 
 on:
-  workflow_dispatch: # on button click. Has to be on master
-
   push:
     branches:
       - en
