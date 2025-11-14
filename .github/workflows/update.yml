@@ -1,14 +1,13 @@
 name: Update the list of operators and the icons used.
 
 on:
-  workflow_dispatch:
-
   push:
     branches:
       - en
     paths:
       - assets/dyn/gamedata/** # avoid looping triggers since this script will update the icon assets
-  
+  workflow_dispatch:
+
 concurrency:
   group: '${{ github.ref }}'
 
