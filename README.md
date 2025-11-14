@@ -13,7 +13,7 @@ This is in run order:
 - From the `master` branch. Triggers periodically
 - Pulls down database information and runs the build script
 #### `update.yml`
-- From this `en` branch. Will trigger when a `.png` is updated in the gamedata folder which is where the information for characters are stored
+- From the `en` branch. Will trigger when the gamedata jsons are changed due to a game update.
 #### `clean.py`
 - Remove unnecessary png files that are not operators from the `charavatars` directories
 #### `build.py`
