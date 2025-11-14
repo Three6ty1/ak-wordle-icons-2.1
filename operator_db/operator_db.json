@@ -135,6 +135,23 @@
         ],
         "infected": "N/A"
     },
+    "CONFESS-47": {
+        "charId": "char_4188_confes",
+        "alias": [],
+        "gender": "Male Type 4",
+        "race": "Robot",
+        "group": "",
+        "nation": "Laterano",
+        "position": "Melee",
+        "profession": "Vanguard",
+        "archetype": "Pioneer",
+        "rarity": 1,
+        "cost": [
+            3,
+            3
+        ],
+        "infected": "N/A"
+    },
     "Yato": {
         "charId": "char_502_nblade",
         "alias": [],
@@ -1061,6 +1078,23 @@
         "cost": [
             18,
             21
+        ],
+        "infected": "Yes"
+    },
+    "Windscoot": {
+        "charId": "char_445_wscoot",
+        "alias": [],
+        "gender": "Male",
+        "race": "Feline",
+        "group": "",
+        "nation": "Yan",
+        "position": "Melee",
+        "profession": "Guard",
+        "archetype": "Librator",
+        "rarity": 4,
+        "cost": [
+            8,
+            10
         ],
         "infected": "Yes"
     },
@@ -2291,6 +2325,23 @@
         ],
         "infected": "Yes"
     },
+    "Gracebearer": {
+        "charId": "char_4187_graceb",
+        "alias": [],
+        "gender": "Female",
+        "race": "Unknown/Undisclosed",
+        "group": "",
+        "nation": "Bolívar",
+        "position": "Melee",
+        "profession": "Guard",
+        "archetype": "Primguard",
+        "rarity": 5,
+        "cost": [
+            18,
+            22
+        ],
+        "infected": "No"
+    },
     "Blue Poison": {
         "charId": "char_129_bluep",
         "alias": [
@@ -2870,6 +2921,23 @@
             20
         ],
         "infected": "Yes"
+    },
+    "Miss.Christine": {
+        "charId": "char_4198_christ",
+        "alias": [],
+        "gender": "Lady",
+        "race": "Unknown/Undisclosed",
+        "group": "",
+        "nation": "Victoria",
+        "position": "Ranged",
+        "profession": "Caster",
+        "archetype": "Primcaster",
+        "rarity": 5,
+        "cost": [
+            20,
+            22
+        ],
+        "infected": "N/A"
     },
     "Tecno": {
         "charId": "char_4164_tecno",
@@ -4004,6 +4072,23 @@
         ],
         "infected": "Yes"
     },
+    "Alanna": {
+        "charId": "char_4178_alanna",
+        "alias": [],
+        "gender": "Female",
+        "race": "Savra",
+        "group": "",
+        "nation": "Rim Billiton",
+        "position": "Melee",
+        "profession": "Supporter",
+        "archetype": "Craftsman",
+        "rarity": 5,
+        "cost": [
+            14,
+            18
+        ],
+        "infected": "No"
+    },
     "Sora": {
         "charId": "char_101_sora",
         "alias": [],
@@ -4331,6 +4416,23 @@
         ],
         "infected": "N/A"
     },
+    "Tippi": {
+        "charId": "char_4191_tippi",
+        "alias": [],
+        "gender": "Female",
+        "race": "Liberi",
+        "group": "",
+        "nation": "Columbia",
+        "position": "Melee",
+        "profession": "Specialist",
+        "archetype": "Skywalker",
+        "rarity": 5,
+        "cost": [
+            15,
+            17
+        ],
+        "infected": "No"
+    },
     "Exusiai": {
         "charId": "char_103_angel",
         "alias": [
@@ -4444,6 +4546,23 @@
             22
         ],
         "infected": "Yes"
+    },
+    "Lemuen": {
+        "charId": "char_4193_lemuen",
+        "alias": [],
+        "gender": "Female",
+        "race": "Sankta",
+        "group": "",
+        "nation": "Laterano",
+        "position": "Ranged",
+        "profession": "Sniper",
+        "archetype": "Longrange",
+        "rarity": 6,
+        "cost": [
+            20,
+            22
+        ],
+        "infected": "No"
     },
     "W": {
         "charId": "char_113_cqbw",
@@ -5305,6 +5424,23 @@
         ],
         "infected": "No"
     },
+    "Tragodia": {
+        "charId": "char_1042_phatm2",
+        "alias": [],
+        "gender": "Male",
+        "race": "Feline",
+        "group": "",
+        "nation": "Victoria",
+        "position": "Ranged",
+        "profession": "Supporter",
+        "archetype": "Ritualist",
+        "rarity": 6,
+        "cost": [
+            14,
+            16
+        ],
+        "infected": "Yes"
+    },
     "Phantom": {
         "charId": "char_250_phatom",
         "alias": [
@@ -5451,6 +5587,23 @@
         "gender": "Male",
         "race": "Feline",
         "group": "Lee's Detective Agency",
+        "nation": "Lungmen",
+        "position": "Ranged",
+        "profession": "Specialist",
+        "archetype": "Geek",
+        "rarity": 6,
+        "cost": [
+            11,
+            13
+        ],
+        "infected": "No"
+    },
+    "Exusiai the New Covenant": {
+        "charId": "char_1041_angel2",
+        "alias": [],
+        "gender": "Female",
+        "race": "Sankta",
+        "group": "Penguin Logistics",
         "nation": "Lungmen",
         "position": "Ranged",
         "profession": "Specialist",
@@ -5704,6 +5857,23 @@
         ],
         "infected": "Yes"
     },
+    "Mon3tr": {
+        "charId": "char_4179_monstr",
+        "alias": [],
+        "gender": "Female",
+        "race": "Unknown/Undisclosed",
+        "group": "",
+        "nation": "Rhodes Island",
+        "position": "Ranged",
+        "profession": "Medic",
+        "archetype": "Chainhealer",
+        "rarity": 6,
+        "cost": [
+            16,
+            18
+        ],
+        "infected": "No"
+    },
     "Hoshiguma": {
         "charId": "char_136_hsguma",
         "alias": [
@@ -5899,6 +6069,23 @@
         "cost": [
             19,
             23
+        ],
+        "infected": "No"
+    },
+    "Sankta Miksaparato": {
+        "charId": "char_4194_rmixer",
+        "alias": [],
+        "gender": "Male",
+        "race": "Sankta",
+        "group": "",
+        "nation": "Laterano",
+        "position": "Melee",
+        "profession": "Defender",
+        "archetype": "Shotprotector",
+        "rarity": 6,
+        "cost": [
+            21,
+            25
         ],
         "infected": "No"
     },
