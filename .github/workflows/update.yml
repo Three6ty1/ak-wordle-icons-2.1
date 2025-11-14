@@ -7,7 +7,7 @@ on:
     branches:
       - en
     paths:
-      - 'assets/gamedata/**' # avoid looping triggers since this script will udpate the icon assets
+      - assets/gamedata/** # avoid looping triggers since this script will udpate the icon assets
   
 concurrency:
   group: '${{ github.ref }}'
