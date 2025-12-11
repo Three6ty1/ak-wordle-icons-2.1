@@ -442,16 +442,16 @@
       "name": "img_battle_line"
     },
     {
-      "spritePath": "[uc]tm_sui_1/astc/home_current_mission",
-      "matPath": "",
-      "clr": "#FFFFFFFF",
+      "spritePath": null,
+      "matPath": null,
+      "clr": null,
       "size": {
-        "x": 81.9,
-        "y": 43.0
+        "x": 110.0,
+        "y": 31.0
       },
       "pos": {
-        "x": -50.0,
-        "y": 2.0
+        "x": 0.0,
+        "y": 0.0
       },
       "name": "img_battle_prg_title"
     },
@@ -692,14 +692,14 @@
       "name": "text_ap_shadow"
     },
     {
-      "clr": "#282828FF",
+      "clr": "#FFFFFFFF",
       "size": {
         "x": 432.0,
         "y": 27.0
       },
       "pos": {
-        "x": -1.5,
-        "y": -39.4
+        "x": 0.0,
+        "y": -36.0
       },
       "name": "text_battle_prg_cur"
     }
